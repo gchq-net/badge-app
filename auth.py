@@ -13,7 +13,7 @@ def get_badge_mac():
 def get_badge_secret():
   try:
     from tildagon import HMAC
-    mac = HMAC.digest(HMAC.HMAC_KEY1, "GCHQ.NET").hex()
+    mac = HMAC.digest(HMAC.HMAC_KEY1, "GCHQ.NET".encode()).hex()
     return mac
   except Exception as e:
     import sys

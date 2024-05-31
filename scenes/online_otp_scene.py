@@ -1,9 +1,7 @@
 from ..scene import Scene
 from events.input import BUTTON_TYPES
 from .otp_scene import OTPScene
-from ..auth import *
-import requests as re
-from ..config import URL
+from ..api_requests import *
 
     
 
@@ -26,7 +24,7 @@ class OnlineOTPScene(OTPScene):
             print("test")
             self.otp_string = "Fetching Codes"
             print("test2")
-            otp = self.get_otp()
+            otp = await self.get_otp()
             print("test3")
             print("got otp", otp)
             if otp is not None:
@@ -37,11 +35,9 @@ class OnlineOTPScene(OTPScene):
                     await asyncio.sleep(1)
             
     
-    def get_otp(self):
-        auth=get_badge_auth()
-        print(auth)
+    async def get_otp(self):
         try:
-            resp = re.post(URL + "/api/badge/otp/", json=auth)
+            resp = await post("/api/badge/otp/")
             if resp.status_code in [200]:
                 return resp.json()
             print(resp.status_code)
