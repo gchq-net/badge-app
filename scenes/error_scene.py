@@ -4,7 +4,7 @@ from events.input import BUTTON_TYPES
 from .online_otp_scene import OnlineOTPScene as OTPScene
 import math
 
-class GCHQMenuScene(Scene):
+class ErrorScene(Scene):
   ACTION_NAME = 0
   ACTION_ROTATION = 1
   ACTION_FN = 2
