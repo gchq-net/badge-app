@@ -51,7 +51,7 @@ def try_submit_capture(capture):
   url = "/api/badge/capture/"
   data = {"capture":{"sn": capture[0], "rand": capture[1], "hmac": capture[2]}, "app_rev": "0.1.0", "fw_rev": os.uname()[2]}
   try:
-    response = post(url, json=data)
+    response = await post(url, json=data)
     if response.status_code == 200 or response.status_code == 201:
       pop_capture(capture)
       return CaptureResult.SUCCESS
