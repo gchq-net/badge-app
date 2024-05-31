@@ -54,7 +54,10 @@ class OTPScene(Scene):
     theta=2*math.pi*self.otp_timer/30
     if self.has_otp:
         ctx.rgb(1,0,0).arc(0,0,120,0,theta,0).arc(0,0,115,theta,0,-1).fill()
-    
+    ctx.restore()
+    ctx.save()
+    ctx.rgb(1,0,0)
+    ctx.scale(2,2)
     m = self.otp_string
     w = ctx.text_width(m)
     ctx.move_to(-w/2, 10)

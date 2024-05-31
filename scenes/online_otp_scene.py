@@ -30,14 +30,14 @@ class OnlineOTPScene(OTPScene):
             print("test3")
             print("got otp", otp)
             if otp is not None:
-                self.otp_string = str(otp)
+                self.otp_string = otp['otp']
+                self.otp_timer = 30
                 self.has_otp = True
                 while self.has_otp:
                     await asyncio.sleep(1)
             
     
     def get_otp(self):
-        print("test4")
         auth=get_badge_auth()
         print(auth)
         try:
