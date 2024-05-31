@@ -6,6 +6,7 @@ from system.notification.events import ShowNotificationEvent
 from system.scheduler.events import RequestStopAppEvent
 from .scenes import *
 from .util import *
+import wifi
  
 
 class GCHQBadgeApp(app.App):
@@ -36,23 +37,28 @@ class GCHQBadgeApp(app.App):
     print("background task started")
     asyncio.create_task(self.background_submit())
     self.set_scene(GCHQMenuScene)
+    try:
+      from tildagon import HMAC
+    except:
+      self.set_scene(ErrorScene)
+      self.current_scene.set_err_msg("Update Badge")
     while True:
       await asyncio.sleep(1)
 
   async def background_submit(self):
-    from network import WLAN
-    wlan=WLAN(WLAN.IF_STA)
     while True:
-      if not wlan.isconnected():
+      if not wifi.status():
+        wifi.connect()
         print("No WiFi")
-        await asyncio.sleep(10)
-        continue
+        if not wifi.wait():
+            await asyncio.sleep(2)
+            continue
       capture = next_capture()
       if capture is None:
         print("No Captures")
         await asyncio.sleep(10)
         continue
-      if not try_submit_capture(capture):
+      if (await try_submit_capture(capture)) != CaptureResult.SUCCESS:
         print("Failed to submit capture")
         await asyncio.sleep(10)
         continue
@@ -145,4 +151,4 @@ class GCHQBadgeApp(app.App):
     ctx.fill()
     
 
-__app_exports__ = GCHQBadgeApp
+__app_export__ = GCHQBadgeApp

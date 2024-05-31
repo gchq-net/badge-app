@@ -2,8 +2,9 @@ from ..scene import Scene
 from events.input import BUTTON_TYPES
 from .otp_scene import OTPScene
 from ..api_requests import *
-
-    
+import asyncio
+import wifi
+import errno
 
 class OnlineOTPScene(OTPScene):
     def __init__(self, *args):
@@ -11,16 +12,17 @@ class OnlineOTPScene(OTPScene):
         self.otp_string = "Waiting for connection"
 
     async def background_task(self):
-        from network import WLAN
-        wlan=WLAN(WLAN.IF_STA)
         self.otp_string = "Waiting for connection"
         while True:
             print("online bacground")
-            if not wlan.isconnected():
+            if not wifi.status():
+                wifi.connect()
                 self.otp_string = "Need WiFi"
                 self.has_otp = False
-                await asyncio.sleep(10)
-                continue
+                if not wifi.wait():
+                    await asyncio.sleep(2)
+                    continue
+            
             print("test")
             self.otp_string = "Fetching Codes"
             print("test2")
@@ -42,8 +44,11 @@ class OnlineOTPScene(OTPScene):
                 return resp.json()
             print(resp.status_code)
             print(resp.text)
-        except Exception as e:
+        except OSError as e:
             import sys
             sys.print_exception(e)
+            print(errno.errorcode[e.errno])
+            
 
             
+

@@ -23,24 +23,14 @@ class GCHQMenuScene(Scene):
         action[self.ACTION_FN](self)
     self.app.button_states.clear()
 
+  def set_err_msg(self, msg):
+    self.err_msg = msg
+
   def draw(self, ctx):
     self.app.draw_background(ctx)
-    
-    for _, action in self.actions.items():
-      ctx.save()
-      ctx.rgb(1,1,1)
-      rot = action[self.ACTION_ROTATION]
-      m = action[self.ACTION_NAME]
-      w = ctx.text_width(m)
+    ctx.rgb(1,0,0)
+    w = ctx.text_width(self.err_msg)
+    ctx.text(self.err_msg, -w/2, -10)
 
-      if rot > math.pi/2:
-        off = -45-w
-        rot -= math.pi
-      else:
-        off = 45
-      ctx.rotate(rot)
-      ctx.move_to(off,10)
-      ctx.text(m)
-      ctx.restore()
 
 

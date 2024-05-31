@@ -47,12 +47,18 @@ class CaptureResult:
     UNKNOWN_FAILURE = -2
     ERROR = -1
 
-def try_submit_capture(capture):
+async def try_submit_capture(capture):
+  print("TESTa")
   url = "/api/badge/capture/"
   data = {"capture":{"sn": capture[0], "rand": capture[1], "hmac": capture[2]}, "app_rev": "0.1.0", "fw_rev": os.uname()[2]}
+  print("TEST")
   try:
+    print("TEST2")
     response = await post(url, json=data)
+    print("TEST3")
+    print(response.text)
     if response.status_code == 200 or response.status_code == 201:
+      print("TEST4")
       pop_capture(capture)
       return CaptureResult.SUCCESS
     if response.status_code == 403:
@@ -66,3 +72,4 @@ def try_submit_capture(capture):
     import sys
     sys.print_exception(e)
     return CaptureResult.ERROR
+

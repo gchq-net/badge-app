@@ -9,5 +9,8 @@ async def nop(*args, **kwargs):
 async def post(url, json={}):
   json.update(get_badge_auth())
   print(json)
-  resp = await async_helpers.unblock(requests.post, nop, URL + url, json=json)
+  #resp = await async_helpers.unblock(requests.post, nop, URL + url, json=json)
+  resp = requests.post(URL+url, json=json)
+  print(resp.text)
   return resp
+

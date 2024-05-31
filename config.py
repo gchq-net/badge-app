@@ -1,3 +1,5 @@
+import settings
 
 
-URL = "https://staging.gchq.net"
+
+URL = settings.get("GCHQ.NET.URL", "https://gchq.net")

@@ -20,6 +20,7 @@ class OTPScene(Scene):
     self.otp_timer = 0
     self.otp_string = ""
     self.has_otp = False
+    self.username = ""
 
   def set_otp_string(self, m):
      self.otp_string = m
@@ -57,11 +58,16 @@ class OTPScene(Scene):
     ctx.restore()
     ctx.save()
     ctx.rgb(1,0,0)
-    ctx.scale(2,2)
+    ctx.scale(1.5,1.5)
     m = self.otp_string
     w = ctx.text_width(m)
     ctx.move_to(-w/2, 10)
 
     ctx.text(m)
 
+    ctx.restore()
+    
+    ctx.save()
+    ctx.rgb(0,0,0)
+    roundtext(ctx, self.username, 96, False)
     ctx.restore()
