@@ -31,6 +31,7 @@ class OnlineOTPScene(OTPScene):
             print("got otp", otp)
             if otp is not None:
                 self.otp_string = otp['otp']
+                self.username = otp['username']
                 self.otp_timer = 30
                 self.has_otp = True
                 while self.has_otp:
