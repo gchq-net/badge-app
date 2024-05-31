@@ -65,6 +65,7 @@ async def try_submit_capture(capture):
       return CaptureResult.AUTHENTICATION_FAILURE
     else:
       print("Returned not 200")
+      pop_capture(capture)
       print(response.status_code)
       print(response.text)
       return CaptureResult.UNKNOWN_FAILURE
